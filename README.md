@@ -1,3 +1,3 @@
 ## Simple Qt TCP Client
 
-![](docs/Simple TCP client.png)
+![Simple Qt TCP client](docs/Simple_Qt_TCP_client.png)
