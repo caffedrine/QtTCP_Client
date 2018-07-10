@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Simple TCP Client</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/res/icon.ico</normaloff>:/res/icon.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
@@ -192,6 +196,9 @@
      </property>
     </widget>
     <widget class="QRadioButton" name="radioButtonDec">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -203,11 +210,17 @@
      <property name="text">
       <string>Dec</string>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
      <property name="checked">
       <bool>false</bool>
      </property>
     </widget>
     <widget class="QRadioButton" name="radioButtonASCII">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>170</x>
@@ -218,6 +231,9 @@
      </property>
      <property name="text">
       <string>ASCII</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
      </property>
      <property name="checked">
       <bool>false</bool>
@@ -240,6 +256,9 @@
      </property>
     </widget>
     <widget class="QRadioButton" name="radioButtonOct">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -251,8 +270,14 @@
      <property name="text">
       <string>Oct</string>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="radioButtonBin">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>170</x>
@@ -263,6 +288,9 @@
      </property>
      <property name="text">
       <string>Bin</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>
@@ -315,6 +343,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
