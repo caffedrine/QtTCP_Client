@@ -100,11 +100,18 @@ void MainWindow::onBytesWritten(qint64 bytes)
 
 void MainWindow::onReadyRead(void)
 {
-    char data[128];
-    if(client->read(data, 128) == -1)
+    char recvBuffer[128];
+    qint64 recvBytes = client->read(recvBuffer, 128);
+
+    if(recvBytes == -1) /* Error */
         return;
 
-    consoleLog("RECV: " + QString::fromStdString(data));
+    QString resultHex;
+    for(qint64 i = 0; i < recvBytes; ++i)
+        resultHex += QString("%1 ").arg(recvBuffer[i], 2, 16, QChar('0')).toUpper();
+    resultHex.chop(1);
+
+    consoleLog("RECV (" + QString::number(recvBytes) + " bytes): " + resultHex);
 }
 
 void MainWindow::on_buttonSend_clicked()
