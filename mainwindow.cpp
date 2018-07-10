@@ -23,7 +23,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_buttonConnect_clicked()
 {
-    if(client != Q_NULLPTR && client)
+    if(client != Q_NULLPTR && client != 0)
     {
         if(client->is_alive())
         {
@@ -55,13 +55,13 @@ void MainWindow::on_buttonConnect_clicked()
 
 void MainWindow::on_buttonDisconnect_clicked()
 {
-    if(client != Q_NULLPTR || client != 0)
+    if(client != Q_NULLPTR || client)
     {
         if(client->is_alive())
         {
             client->doDisconnect();
         }
-
+        return;
         delete client;
         client = Q_NULLPTR;
     }
@@ -69,7 +69,7 @@ void MainWindow::on_buttonDisconnect_clicked()
 
 void MainWindow::consoleLog(QString str)
 {
-    this->ui->textConsole->append("[" + QTime::currentTime().toString() + "] " +  str);
+    this->ui->textConsole->append("[" + QTime::currentTime().toString("hh:mm:ss.zzz") + "] " +  str);
 }
 
 /*
@@ -124,21 +124,52 @@ void MainWindow::on_buttonSend_clicked()
     }
 
     /* Fetch data from UI */
-    QString data = this->ui->textDataSend->text();
+    QString strToSend = this->ui->textDataSend->text();
+    if(strToSend.length() == 0)
+        return;
+
+    /* Store bytes to send as an array of bytes */
+    QByteArray bytesToSend;
+
+    /* Convert data from selected format to QByteArray */
+    if(ui->radioButtonHex->isChecked())
+    {
+        bytesToSend = QByteArray::fromHex( strToSend.remove(" ").toLatin1() );
+
+    }
+    else if(ui->radioButtonString->isChecked())
+    {
+         bytesToSend = strToSend.toLocal8Bit();
+    }
+    else
+    {
+        consoleLog("Invalid data format selected!");
+        return;
+    }
 
     /* Send data to socket */
-    qint64 sendBytes = client->write(data);
+    qint64 sendBytes = client->write(bytesToSend);
 
+    /* Check for socket errors */
     if(sendBytes == -1)
     {
         QMessageBox::warning(this, "Error!", "Failed to send data!\nREASON: " + client->getLastError());
         return;
     }
 
-    if(sendBytes != data.length())
+    /* Check how many bytes were send */
+    if(sendBytes != bytesToSend.length())
     {
-        QMessageBox::warning(this, "WARNING", "Only " + QString::number(sendBytes) + " / " + QString::number(data.length()) + " were send!");
+        QMessageBox::warning(this, "WARNING", "Only " + QString::number(sendBytes) + " / " + QString::number(bytesToSend.length()) + " were send!");
     }
 
-    consoleLog("SEND: " + data.left(sendBytes) );
+    /* Build debug string to display relevant information about operation */
+    QString dbgStr = "SEND (";
+    dbgStr += QString::number(sendBytes) + " bytes): ";
+
+    for(int i = 0; i < sendBytes; ++i)
+        dbgStr += QString("%1 ").arg(bytesToSend[i], 2, 16, QChar('0')).toUpper();
+    dbgStr.chop(1);
+
+    consoleLog( dbgStr );
 }

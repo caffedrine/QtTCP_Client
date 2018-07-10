@@ -54,12 +54,13 @@ void TcpClient::doConnect()
     this->socket = new QTcpSocket(this);
 	this->socket->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
 
+    /* Also link the signals */
 	connect(socket, SIGNAL(connected()),this, SLOT(connected()));
 	connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()));
     connect(socket, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
 	connect(socket, SIGNAL(readyRead()),this, SLOT(readyRead()));
 
-	// this is not blocking call
+    /* this is not blocking call */
 	socket->connectToHost(this->hostname, this->port);
 
 	// we need to wait...
@@ -79,11 +80,13 @@ void TcpClient::doConnect()
 
 void TcpClient::connected()
 {
+    this->isConnected = true;
     emit onConnectionChanged(true);
 }
 
 void TcpClient::disconnected()
 {
+    this->isConnected = false;
     emit onConnectionChanged(false);
 }
 
@@ -99,25 +102,18 @@ void TcpClient::readyRead()
 
 qint64 TcpClient::read(char *data, qint64 max_len)
 {
-    if(this->socket == Q_NULLPTR || this->socket == 0)
-        return -1;
-
     if(!this->is_alive())
         return -1;
 
     return socket->read(data, max_len);
 }
 
-qint64 TcpClient::write(QString msg)
+qint64 TcpClient::write(QByteArray sendBytes)
 {
-    if(this->socket == Q_NULLPTR || this->socket == 0)
-        return -1;
-
     if(!this->is_alive())
         return -1;
 
-	const QByteArray bytesToSend = QByteArray::fromStdString( msg.toStdString() );
-    return this->socket->write(bytesToSend);
+    return this->socket->write(sendBytes);
 }
 
 bool TcpClient::is_alive()
@@ -128,10 +124,14 @@ bool TcpClient::is_alive()
     if (!this->socket->isValid())
         return false;
 
-	if(this->socket->isOpen() && this->socket->isWritable())
-		return true;
+	if(this->socket->isOpen() && this->socket->isWritable())	
+    {
+        return this->isConnected;
+    }
 	else
+    {
 		return false;
+    }
 }
 
 void TcpClient::doDisconnect()
@@ -144,7 +144,4 @@ void TcpClient::doDisconnect()
         this->socket->disconnectFromHost();
         this->socket->close();
     }
-
-    delete this->socket;
-    this->socket = Q_NULLPTR;
 }

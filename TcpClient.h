@@ -16,6 +16,8 @@ public:
     explicit TcpClient(QObject *parent = 0);
     ~TcpClient();
 
+
+
     /* Set internals */
     void setHostname(QString hostname);
     void setPort(int port);
@@ -30,7 +32,7 @@ public:
     void doConnect();
     void doDisconnect();
     qint64 read(char *data, qint64 max_len);
-    qint64 write(QString data);
+    qint64 write(QByteArray sendBytes);
     bool is_alive();
 
 signals:
@@ -50,6 +52,7 @@ private:
     /* Internal variables */
     QString lastError, hostname;
     int port;
+    bool isConnected = false;
 
     /* Socket fd */
     QTcpSocket *socket = Q_NULLPTR;

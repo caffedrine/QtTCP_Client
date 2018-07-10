@@ -94,7 +94,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>127.0.0.1</string>
+      <string>10.115.12.57</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditPort">
@@ -107,7 +107,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>1337</string>
+      <string>1338</string>
      </property>
     </widget>
     <widget class="QPushButton" name="buttonConnect">
@@ -171,6 +171,9 @@
        <height>21</height>
       </rect>
      </property>
+     <property name="text">
+      <string>3C 36 00 00 23 0D</string>
+     </property>
     </widget>
     <widget class="QRadioButton" name="radioButtonHex">
      <property name="geometry">
@@ -183,6 +186,9 @@
      </property>
      <property name="text">
       <string>Hex</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QRadioButton" name="radioButtonDec">
@@ -230,7 +236,7 @@
       <string>String</string>
      </property>
      <property name="checked">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QRadioButton" name="radioButtonOct">
@@ -296,7 +302,7 @@
      <x>0</x>
      <y>0</y>
      <width>541</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
