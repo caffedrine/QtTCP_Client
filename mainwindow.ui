@@ -14,8 +14,8 @@
    <string>Simple TCP Client</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
-    <normaloff>:/res/icon.ico</normaloff>:/res/icon.ico</iconset>
+   <iconset resource="res/resources.qrc">
+    <normaloff>:/icon.ico</normaloff>:/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="groupBox">
@@ -344,7 +344,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="res/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
