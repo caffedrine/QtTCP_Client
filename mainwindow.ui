@@ -98,7 +98,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>10.115.12.57</string>
+      <string>127.0.0.1</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditPort">
@@ -111,7 +111,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>1338</string>
+      <string>1337</string>
      </property>
     </widget>
     <widget class="QPushButton" name="buttonConnect">
@@ -330,7 +330,7 @@
      <x>0</x>
      <y>0</y>
      <width>541</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
